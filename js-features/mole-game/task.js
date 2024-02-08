@@ -1,37 +1,77 @@
-// напишите функцию getHole( index ), которая по индексу будет возвращать нужный элемент
-const getHole = index => document.getElementById(`hole${index}`);
+(() => {
+    let playing = true,
+        activeHole = 1,
+        hitsCount = 0,
+        missesCount = 0;
 
-// убираем крота из лунки
-const deactivateHole = index => getHole(index).classList.remove('hole_has-mole');
+    // напишите функцию getHole( index ), которая по индексу будет возвращать нужный элемент
+    const getHole = index => document.getElementById(`hole${index}`);
 
-// добавляем крота в новую лунку
-const activateHole = index => getHole(index).classList.add('hole_has-mole');
+    // убираем крота из лунки
+    const deactivateHole = index => getHole(index).classList.remove('hole_has-mole');
 
-// Проверяем был ли клик по лунке
-const handleMoleClick = (index) => {
-    if (playing && getHole(index).classList.contains('hole_has-mole')) {
-        // Если кликнули на лунку с кротом
-        deadCount++;
-        updateScores();
-        deactivateHole(index);
-        activeHole = Math.floor(1 + Math.random() * 9);
-        activateHole(activeHole);
-        checkGameOver();
-    } else {       // Если кликнули, но промахнулись
-        lostCount++;
-        updateScores();
-    }
-};
+    // добавляем крота в новую лунку
+    const activateHole = index => getHole(index).classList.add('hole_has-mole');
 
-// Запуск игры
-const initGame = () => {
-    const playRound = () => {
-        deactivateHole(activeHole);                          // Деактивируем текущую лунку с кротом
-        activeHole = Math.floor(1 + Math.random() * 9);     // Генерируем новый индекс для лунки с кротом
-        activateHole(activeHole);                           // Активируем новую лунку с кротом
-    };
+    // Функция обновления счета на странице
+    updateScores = () => {
+        document.getElementById('dead').innerText = hitsCount;
+        document.getElementById('lost').innerText = missesCount;
+    },
 
-    playRound();
-};
+        // Функция обработки клика по лунке
+        handleMoleClick = (index) => {
+            if (playing && getHole(index).classList.contains('hole_has-mole')) {
+                hitsCount++;         // Если кликнули на лунку с кротом 
+            } else {
+                missesCount++;      // Если промахнулись
+            }
 
-initGame();
+            updateScores();          // Обновляем счет
+
+            // Проверяем условия и сбрасываем счетчики и начало новой игры
+            if (hitsCount === 10) {
+                alert('Поздравляем, вы выиграли!');
+                resetGame();
+            } else if (missesCount === 5) {
+                alert('Игра окончена. Вы проиграли.');
+                resetGame();
+            }
+        },
+
+        // Сброс игры
+        resetGame = () => {
+            hitsCount = 0;
+            missesCount = 0;
+            updateScores();
+            startNewRound();
+        },
+
+        // Начинается новый раунд
+        startNewRound = () => {
+            deactivateHole(activeHole);                             // Деактивируем текущую лунку
+            activeHole = Math.floor(1 + Math.random() * 9);       // Генерируем новый индекс для лунки с кротом
+            activateHole(activeHole);                             // Активируем новую лунку с кротом
+        },
+
+        // Функция инициализации игры
+        initGame = () => {
+            // Навешиваем обработчик на каждую лунку
+            for (let i = 1; i <= 9; i++) {
+                getHole(i).addEventListener('click', () => handleMoleClick(i));
+            }
+
+            startNewRound();
+        };
+
+    initGame(); // Инициализация игры при загрузке страницы
+})();
+
+
+
+
+
+
+
+
+

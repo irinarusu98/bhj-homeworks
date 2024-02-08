@@ -17,6 +17,7 @@ document.addEventListener('DOMContentLoaded', function () {
             cookieElement.style.width = '200px';
             cookieElement.style.height = '200px';
         }
+        counterElement.textContent = clickCounter;
     }
     cookieElement.onclick = handleClick;
 });
