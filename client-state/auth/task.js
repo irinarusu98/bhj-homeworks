@@ -4,6 +4,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const welcomeBlock = document.getElementById("welcome");
     const userIdSpan = document.getElementById("user_id");
 
+    // Добавляем функцию для проверки авторизации 
+    function checkAuth() {
+        const storedUserId = localStorage.getItem("userId");
+        if (storedUserId) {
+            welcomeBlock.classList.add("welcome_active");
+            userIdSpan.textContent = storedUserId;
+            signInForm.style.display = "none"; // Теперь, если пользователь уже авторизован, форму авторизации скрываем
+        }
+    }
+
+    checkAuth();
+
     // Если в хранилище уже есть id польз., отображаем блок приветствия
     const storedUserId = localStorage.getItem("userId");
     if (storedUserId) {

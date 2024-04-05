@@ -4,10 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Надо проверить, есть ли сохраненное значение в localStorage
     const savedText = localStorage.getItem("editorText");
 
-    // Если есть сохраненное значение, устанавливаем его в текстовый редактор
-    if (savedText) {
-        editor.value = savedText;
-    }
+    editor.value = savedText;  // Устанавливаем значение в текстовый редактор 
 
     // Добавляем обработчик события input для отслеживания изменений в редакторе
     editor.addEventListener("input", function () {

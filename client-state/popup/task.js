@@ -2,8 +2,8 @@ document.addEventListener("DOMContentLoaded", function () {
     const modal = document.getElementById("subscribe-modal");
     const closeButton = modal.querySelector(".modal__close");
 
-    // Проверяем, есть ли информация о закрытии окна в localStorage
-    const isModalClosed = localStorage.getItem("isModalClosed");
+    // Проверяем, есть ли информация о закрытии окна в куках
+    const isModalClosed = document.cookie.includes("isModalClosed=true");
 
     // Если окно не было закрыто, отображаем его
     if (!isModalClosed) {
